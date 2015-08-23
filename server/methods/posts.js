@@ -8,7 +8,7 @@ Meteor.methods({
     // check for duplicates
     var exists = Posts.findOne({url: post.url});
     if(exists) {
-      throw new Meteor.Error('already-exists', 'Looks like this Link already exists');
+      throw new Meteor.Error('already-exists', 'Looks like this link already exists');
     }
 
     /*
@@ -87,5 +87,16 @@ Meteor.methods({
           }
         });
       });
+  },
+
+  deletePost: function(postId) {
+    check(postId, String);
+
+    var post = Posts.findOne(postId);
+
+    // is owner
+    if(Meteor.userId() === post.authorId) {
+      Posts.remove(postId);
+    }
   }
 });

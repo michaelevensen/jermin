@@ -4,6 +4,10 @@
     <a href="{{pathFor 'index'}}"><img src="img/smiley.svg"></a>
   </div>
 
+  {{#if currentUser}}
+    {{> new }}
+  {{/if}}
+
   <nav>
     <ul>
 

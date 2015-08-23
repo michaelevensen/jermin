@@ -1,23 +1,10 @@
 <template name="index">
 
-  {{#if currentUser}}
-
-    <div class="wrapper">
-
-      <form class="new-post">
-        <label for="new-post">{{#if errorMessage}}<span class="help-block">{{errorMessage}}</span>{{else}}Paste your link{{/if}}</label>
-        <input type="text" name="new-post" id="new-post" class="dark" placeholder="YouTube, SoundCloud or Spotify" autofocus>
-      </form>
-
-    </div>
-
-  {{/if}}
-
   <div class="grid">
 
     {{#each posts}}
       <div class="grid-item">
-        {{{html}}}
+        {{> item }}
       </div>
     {{/each}}
 

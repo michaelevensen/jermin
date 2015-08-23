@@ -1,0 +1,17 @@
+<template name="item">
+
+  <div class="item">
+
+    {{#if isOwner}}
+      <div class="delete">
+        <span>x Delete</span>
+      </div>
+    {{/if}}
+
+    <div class="embed">
+      {{{html}}}
+    </div>
+
+  </div>
+
+</template>
