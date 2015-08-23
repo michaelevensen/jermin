@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="362px" height="120px" viewBox="0 0 362 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>Wave_Dash</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Wave_Dash" sketch:type="MSLayerGroup" fill="#FFFFFF">
+            <g id="g8" sketch:type="MSShapeGroup">
+                <path d="M96.9,44.5 C70.9,44.5 55.7,60.42 30.5,93.06 L0.1,72.1 C14.9,50.5 24.9,37.62 42.5,24.18 C58.427778,12.15296 78.9,0.02 102.101,0.02 C139.276,0.02 159.278,16.973 190.101,40.82 C220.501,64.34 241.702,74.421 260.901,74.421 C269.301,74.421 284.28256,70.01581 294.102,62.101 C307.22141,52.96521 316.502,40.981 330.502,18.42 L361.302,42.26 C344.902,67.22 334.102,79.3 320.902,90.82 C300.502,109.06 281.702,119.381 255.702,119.381 C185.652,119.38 154.714,44.5 96.9,44.5 L96.9,44.5 Z" id="path10"></path>
+            </g>
+        </g>
+    </g>
+</svg>

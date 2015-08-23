@@ -1,0 +1,15 @@
+<template name="login">
+
+  <h2>Login</h2>
+
+  <form class="login">
+    <label for="username">{{#if errorMessage 'username'}}<span class="help-block">{{errorMessage}}</span>{{else}}Username{{/if}}</label>
+    <input type="text" id="username" name="username" placeholder="Username">
+
+    <label for="password">{{#if errorMessage 'password'}}<span class="help-block">{{errorMessage}}</span>{{else}}Password{{/if}}</label>
+    <input type="password" id="password" name="password" placeholder="Passsword">
+
+    <button type="submit">Login</button>
+  </form>
+
+</template>

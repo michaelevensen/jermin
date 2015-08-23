@@ -1,13 +1,21 @@
 <template name="header">
 
   <div class="logo">
-    <a href="{{pathFor 'index'}}">Index</a>
+    <a href="{{pathFor 'index'}}"><img src="img/smiley.svg"></a>
   </div>
-
 
   <nav>
     <ul>
-      <li><a name="#" href="#">Navigation Item</a></li>
+
+      {{#if currentUser}}
+        <li>Yo, <a href="/{{currentUser.username}}">{{currentUser.username}}</a></li>
+        <li><a name="logout" href="#">Logout</a></li>
+      {{else}}
+        <li><a name="register" href="#">Register</a></li>
+        <li><a name="login" href="#">Login</a></li>
+      {{/if}}
+
+
     </ul>
   </nav>
 
