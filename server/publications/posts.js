@@ -4,12 +4,6 @@ Meteor.publish('allPosts', function() {
 	return Posts.find();
 });
 
-// Posts by User ID
-// Meteor.publish('postsByUser', function(userId) {
-// 	check(userId, String);
-// 	return Posts.find({authorId: userId});
-// });
-
 // Posts by Username
 Meteor.publish('postsByUsername', function(username) {
 	check(username, String);

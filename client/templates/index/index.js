@@ -4,6 +4,6 @@ Template.index.onCreated(function() {
 
 Template.index.helpers({
   posts: function() {
-    return Posts.find({}, {sort: {createdAt: -1}});
+    return Posts.find({isFeatured: true}, {sort: {createdAt: -1}});
   }
 });

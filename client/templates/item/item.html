@@ -2,15 +2,23 @@
 
   <div class="item">
 
+    <div class="embed">
+      {{{html}}}
+    </div>
+
+    <span style="color: white">Posted by {{authorName}}</span>
+
     {{#if isOwner}}
       <div class="delete">
         <span>x Delete</span>
       </div>
     {{/if}}
 
-    <div class="embed">
-      {{{html}}}
-    </div>
+    {{#if isAdmin}}
+      <div class="delete">
+        <input type="checkbox" name="featured" value="Featured" {{isFeatured}}>Featured
+      </div>
+    {{/if}}
 
   </div>
 

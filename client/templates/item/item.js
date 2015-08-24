@@ -15,7 +15,16 @@ Template.item.events({
 });
 
 Template.item.helpers({
+  authorName: function() {
+    return Meteor.users.findOne(this.authorId).username;
+  },
   isOwner: function(){
     return Meteor.userId() === this.authorId;
+  },
+  isAdmin: function() {
+    return Roles.userIsInRole(Meteor.userId(), ['admin']);
+  },
+  isFeatured: function() {
+    return this.isFeatured ? 'checked' : '';
   }
 });

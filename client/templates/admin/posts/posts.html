@@ -1,0 +1,34 @@
+<template name="posts">
+
+  <div class="wrapper white">
+
+    <h2>Posts ({{posts.count}})</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Url</th>
+          <th>Embed</th>
+          <th>Posted by</th>
+          <th>Featured</th>
+        </tr>
+      </thead>
+
+    {{#each posts}}
+
+      <tr>
+        <td>{{url}}</td>
+        <td>{{{html}}}</td>
+        <td>{{timeAgo createdAt}}</td>
+        <td>
+          <input type="checkbox" name="featured" value="Featured" {{isFeatured}}>Featured
+        </td>
+      </tr>
+
+    {{/each}}
+
+    </table>
+
+  </div>
+
+</template>

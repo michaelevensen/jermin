@@ -1,0 +1,32 @@
+<template name="users">
+
+  <div class="wrapper white">
+
+    <h2>Users ({{users.count}})</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Username</th>
+          <th>Created</th>
+          <th>Posts</th>
+        </tr>
+      </thead>
+
+    {{#each users}}
+
+      <tr>
+        <td>{{_id}}</td>
+        <td>{{username}}</td>
+        <td>{{timeAgo createdAt}}</td>
+        <td>{{posts _id}}</td>
+      </tr>
+
+    {{/each}}
+
+    </table>
+
+  </div>
+
+</template>

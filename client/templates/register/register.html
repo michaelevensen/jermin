@@ -9,6 +9,9 @@
     <label for="password">{{#if errorMessage 'password'}}<span class="help-block">{{errorMessage 'password'}}</span>{{else}}Password{{/if}}</label>
     <input type="password" id="password" name="password" placeholder="Passsword">
 
+    <label for="token">{{#if errorMessage 'token'}}<span class="help-block">{{errorMessage 'token'}}</span>{{else}}Token{{/if}}</label>
+    <input type="text" id="token" name="token" placeholder="Invite Token">
+
     <button type="submit">Register</button>
   </form>
 

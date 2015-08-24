@@ -1,0 +1,37 @@
+<template name="invites">
+  <div class="wrapper white">
+
+    <h2>Invites ({{invites.count}})</h2>
+
+    <form>
+      <label for="create-invite">Create new invite</label>
+      <input type="text" id="create-invite" class="dark" name="create-invite" placeholder="Email Address">
+
+      <button type="submit">Send invite</button>
+
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Created</th>
+          <th>Invite used?</th>
+        </tr>
+      </thead>
+
+    {{#each invites}}
+
+      <tr>
+        <td>{{email}}</td>
+        <td>{{timeAgo createdAt}}</td>
+        <td>{{readableBoolean used}}</td>
+      </tr>
+
+    {{/each}}
+
+    </table>
+
+  </div>
+
+</template>

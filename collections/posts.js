@@ -17,6 +17,12 @@ Posts.attachSchema(new SimpleSchema({
     optional: true
   },
 
+  isFeatured: {
+    type: Boolean,
+    optional: true,
+    defaultValue: false
+  },
+
   type: {
     type: String
   },
