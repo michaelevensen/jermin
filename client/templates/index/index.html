@@ -2,11 +2,19 @@
 
   <div class="grid">
 
-    {{#each posts}}
-      <div class="grid-item">
-        {{> item }}
-      </div>
-    {{/each}}
+    {{#if Template.subscriptionsReady}}
+
+      {{#each posts}}
+        <div class="grid-item">
+          {{> item }}
+        </div>
+      {{/each}}
+
+    {{else}}
+
+      {{> spinner }}
+
+    {{/if}}
 
   </div>
 

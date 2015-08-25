@@ -4,6 +4,7 @@ Template.header.events({
 
     // login
     Modal.open('login');
+    // FlowRouter.go('login');
   },
   'click a[name=logout]': function(event, template) {
     event.preventDefault();
@@ -15,7 +16,7 @@ Template.header.events({
     event.preventDefault();
 
     // login
-    Modal.open('register');
+    FlowRouter.go('register');
   },
 
 });

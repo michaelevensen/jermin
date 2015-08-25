@@ -11,9 +11,9 @@ kadira:blaze-layout
 aldeed:collection2
 juliancwirko:s-jeet
 meteorhacks:subs-manager
-meteorhacks:fast-render
+meteorhacks:fast-render@2.9.0
 zimme:active-route
-arillo:flow-router-helpers
+arillo:flow-router-helpers@0.4.4_1
 msavin:mongol
 underscorestring:underscore.string
 wizonesolutions:underscore-string
@@ -28,3 +28,4 @@ random
 cmather:handlebars-server
 alanning:roles
 momentjs:moment
+sacha:spin

@@ -81,11 +81,17 @@ Meteor.methods({
           'User-Agent': 'chrome'
         }
       }, function(error, result) {
-        Posts.update({url: post.url}, {
-          $set: {
-            html: result.data.html
-          }
-        });
+        if(error) {
+          throw new Meteor.Error(error);
+        }
+        else if(result) {
+          // update with iframe html
+          Posts.update({url: post.url}, {
+            $set: {
+              html: result.data.html
+            }
+          });
+        }
       });
   },
 

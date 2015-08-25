@@ -1,5 +1,6 @@
 Template.index.onCreated(function() {
   subs.subscribe('allPosts');
+  subs.subscribe('allUsernames');
 });
 
 Template.index.helpers({

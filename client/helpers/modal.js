@@ -23,6 +23,7 @@ Modal.open = function(template, options) {
 
   $overlay.click(function(e) {
     if(e.target==this) {
+      console.log(e.target);
       Modal.close(overlay);
     }
   });
@@ -32,10 +33,17 @@ Modal.open = function(template, options) {
 // If you're closing a specific element refer to it with it's classname. eg. '.login' not 'login'
 Modal.close = function(element) {
   var $overlay = $(element).closest('.overlay');
-
   if(!$overlay || !$overlay.get() || !$overlay.get()[0]) return;
-
   var overlayDiv = $overlay.get()[0];
+
+  // reset path
+  var previousPath = FlowRouter.current().oldRoute;
+  console.log(previousPath.pathDef);
+
+  // if(previousPath) {
+  //   var path = FlowRouter.path(previousPath);
+  //   FlowRouter.go(path);
+  // }
 
   // remove
   Blaze.remove(overlayDiv.view);

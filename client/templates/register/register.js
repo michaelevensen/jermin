@@ -37,6 +37,12 @@ Template.register.helpers({
       return '';
     }
   },
+  prefillToken: function() {
+    if(this.token) {
+      // prefill token
+      return this.token;
+    }
+  }
 });
 
 Template.register.onCreated(function() {

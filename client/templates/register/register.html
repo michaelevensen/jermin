@@ -1,6 +1,6 @@
 <template name="register">
 
-  <h2>Register</h2>
+  <h1>Register</h1>
 
   <form class="register">
     <label for="username">{{#if errorMessage 'username'}}<span class="help-block">{{errorMessage 'username'}}</span>{{else}}Username{{/if}}</label>
@@ -10,7 +10,7 @@
     <input type="password" id="password" name="password" placeholder="Passsword">
 
     <label for="token">{{#if errorMessage 'token'}}<span class="help-block">{{errorMessage 'token'}}</span>{{else}}Token{{/if}}</label>
-    <input type="text" id="token" name="token" placeholder="Invite Token">
+    <input type="text" id="token" name="token" placeholder="Invite Token" value="{{prefillToken}}">
 
     <button type="submit">Register</button>
   </form>

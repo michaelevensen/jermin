@@ -16,7 +16,10 @@ Template.item.events({
 
 Template.item.helpers({
   authorName: function() {
-    return Meteor.users.findOne(this.authorId).username;
+    // var user = Meteor.users.findOne(this.authorId, {fields: {
+    //   'username': 1
+    // }});
+    // return user.username;
   },
   isOwner: function(){
     return Meteor.userId() === this.authorId;

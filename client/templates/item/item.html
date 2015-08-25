@@ -6,19 +6,17 @@
       {{{html}}}
     </div>
 
-    <span style="color: white">Posted by {{authorName}}</span>
-
-    {{#if isOwner}}
-      <div class="delete">
-        <span>x Delete</span>
-      </div>
-    {{/if}}
-
-    {{#if isAdmin}}
-      <div class="delete">
-        <input type="checkbox" name="featured" value="Featured" {{isFeatured}}>Featured
-      </div>
-    {{/if}}
+    <div class="footer">
+      <ul>
+        <li class="posted-by">Posted by <a href="{{pathFor 'profile' username=authorName}}">{{authorName}}</a></li>
+        {{#if isAdmin}}
+          <li class="featured">
+            <input type="checkbox" name="featured" value="Featured" {{isFeatured}}>Featured
+          </li>
+        {{/if}}
+        {{#if isOwner}}<li class="delete-post">Delete</li>{{/if}}
+      </ul>
+    </div>
 
   </div>
 
