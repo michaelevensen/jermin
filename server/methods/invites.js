@@ -44,10 +44,10 @@ Meteor.methods({
           from: "Rave <hello@rave.io>",
           subject: "Your invite to Rave",
           text: Handlebars.templates['invite-text']({
-            urlWithToken: url + '/register/' + token
+            urlWithToken: url + '?action=register&token=' + token
           }),
           html: Handlebars.templates['invite-html']({
-            urlWithToken: url + '/register/' + token
+            urlWithToken: url + '?action=register&token=' + token
           })
         });
       }

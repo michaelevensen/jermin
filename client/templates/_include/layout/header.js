@@ -2,9 +2,8 @@ Template.header.events({
   'click a[name=login]': function(event, template) {
     event.preventDefault();
 
-    // login
-    Modal.open('login');
-    // FlowRouter.go('login');
+    // open login
+    FlowRouter.setQueryParams({action: 'login'});
   },
   'click a[name=logout]': function(event, template) {
     event.preventDefault();
@@ -15,8 +14,8 @@ Template.header.events({
   'click a[name=register]': function(event, template) {
     event.preventDefault();
 
-    // login
-    FlowRouter.go('register');
+    // open register
+    FlowRouter.setQueryParams({action: 'register'});
   },
 
 });

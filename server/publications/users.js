@@ -14,6 +14,7 @@ Meteor.publish('allUsers', function() {
    return Meteor.users.find({}, {
 		 fields: {
 		 'username': 1,
+		 'createdAt': 1
 	 }});
  } else {
    this.stop();
