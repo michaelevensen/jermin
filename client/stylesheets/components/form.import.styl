@@ -1,3 +1,6 @@
+input[type='checkbox']
+	cursor pointer
+	margin-right 6px
 
 textarea,
 input[type='text'],
@@ -12,7 +15,6 @@ input[type='password']
 	width 100%
 	resize none
 	border-radius 0
-	letter-spacing -1px
 	margin-bottom 20px
 
 	&:focus
@@ -25,21 +27,26 @@ input[type='password']
 
 	// prefill default
 	&:-webkit-autofill
-		background-color blue
+		// background-color blue
 		box-shadow 0 0 0px 1000px white inset
 
 // placeholder text
 ::placeholder
-	color rgba(255,255,255,.2)
+	color rgba(255,255,255,.3)
 
 select
 	background-color white
 	margin 20px auto
-	font-size 22px
 
 label
-	display inline-block
-	color _dark
-	font-weight bold
-	text-transform uppercase
-	margin-bottom 15px
+	cursor pointer
+	user-select none
+
+
+/*
+*	Form Groups
+*/
+.form-group
+	label
+		color _gray
+		margin-bottom 100px

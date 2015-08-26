@@ -1,7 +1,7 @@
 
 // All posts by all users
-Meteor.publish('allPosts', function() {
-	return Posts.find();
+Meteor.publish('allFeaturedPosts', function() {
+	return Posts.find({isFeatured: true}, {sort: {createdAt: -1}});
 });
 
 // Posts by Username

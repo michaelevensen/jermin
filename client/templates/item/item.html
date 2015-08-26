@@ -3,18 +3,26 @@
   <div class="item">
 
     <div class="embed">
-      {{{html}}}
+      {{#if html}}
+        {{{html}}}
+      {{else}}
+        <div class="loading">
+          {{> spinner }}
+        </div>
+      {{/if}}
     </div>
 
-    <div class="footer">
+    <div class="footer info">
       <ul>
         <li class="posted-by">Posted by <a href="{{pathFor 'profile' username=authorName}}">{{authorName}}</a></li>
         {{#if isAdmin}}
-          <li class="featured">
-            <input type="checkbox" name="featured" value="Featured" {{isFeatured}}>Featured
+          <li class="is-featured">
+            <label>
+              <input type="checkbox" name="featured" {{featured}}>Featured
+            </label>
           </li>
         {{/if}}
-        {{#if isOwner}}<li class="delete-post">Delete</li>{{/if}}
+        {{#if isOwner}}<li class="delete-post"><span class="zmdi zmdi-close"></span>Delete</li>{{/if}}
       </ul>
     </div>
 

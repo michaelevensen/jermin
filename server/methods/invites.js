@@ -1,10 +1,9 @@
 Meteor.methods({
-  validateToken: function(email, token){
-    check(email, String);
+  validateToken: function(token) {
     check(token, String);
 
     // check invite
-    var invite = Invites.findOne({email: email, token: token});
+    var invite = Invites.findOne({token: token});
 
     if(invite.used) {
       throw new Meteor.Error("used-token", "Sorry, this token has already been used.");
@@ -15,6 +14,7 @@ Meteor.methods({
     }
 
     else {
+      // good to go
       return true;
     }
   },
@@ -52,5 +52,14 @@ Meteor.methods({
         });
       }
     });
+  },
+
+  useInvite: function(token) {
+    check(token, String);
+
+    // set token to used (with current user-id)
+    Invites.update({token: token}, {$set: {
+      'used': Meteor.userId()
+    }});
   }
 });

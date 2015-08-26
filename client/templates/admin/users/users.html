@@ -18,7 +18,7 @@
 
       <tr>
         <td>{{_id}}</td>
-        <td>{{username}}</td>
+        <td><a href="{{pathFor 'profile' username=username}}" target="_blank" class="zmdi zmdi-account">{{username}}</a></td>
         <td>{{timeAgo createdAt}}</td>
         <td>{{posts _id}}</td>
       </tr>

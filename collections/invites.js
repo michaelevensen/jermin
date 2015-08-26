@@ -13,14 +13,16 @@ Invites.attachSchema(new SimpleSchema({
   },
 
   used: {
-    type: Boolean,
-    defaultValue: false
+    type: String,
+    optional: true
   },
 
   createdAt: {
     type: Date,
-    autoValue: function() {
-      return new Date();
-    }
+    autoValue: function(doc) {
+      if (Meteor.isServer && this.isInsert) {
+          return new Date();
+      }
+    },
   }
 }));

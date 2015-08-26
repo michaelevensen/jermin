@@ -26,6 +26,6 @@ Meteor.publish('allUsers', function() {
 Meteor.publish('allUsernames', function() {
  return Meteor.users.find({}, {
 	 fields: {
-	 'username': 1,
+		 'username': 1,
  }});
 });

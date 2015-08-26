@@ -1,3 +1,10 @@
+Template.profile.onCreated(function() {
+  var postAuthorUsername = FlowRouter.getParam('username');
+  author = Meteor.users.findOne({username: postAuthorUsername});
+
+  // subscribe
+  subs.subscribe('postsByUsername', postAuthorUsername);
+});
 
 Template.profile.helpers({
   posts: function() {
@@ -7,12 +14,4 @@ Template.profile.helpers({
   username: function() {
     return author.username;
   }
-});
-
-Template.profile.onCreated(function() {
-  var postAuthorUsername = FlowRouter.getParam('username');
-  author = Meteor.users.findOne({username: postAuthorUsername});
-
-  // subscribe
-  subs.subscribe('postsByUsername', postAuthorUsername);
 });

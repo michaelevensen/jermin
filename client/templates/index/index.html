@@ -1,5 +1,29 @@
 <template name="index">
 
+  <div class="wrapper">
+
+    <p class="large white">
+
+      Welcome to xxx, <br>
+
+      {{#if posts.count}}
+         here's some tracks or playlists featured from
+
+         {{#each featuredUsernames}}
+            <span class="featured-username">{{this}}</span>
+         {{/each}}
+
+      {{else}}
+
+        nothing's featured quite yet.
+
+      {{/if}}
+
+
+    </p>
+
+  </div>
+
   <div class="grid">
 
     {{#if Template.subscriptionsReady}}

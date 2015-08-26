@@ -3,6 +3,22 @@ Posts = new Mongo.Collection('posts');
 
 Posts.attachSchema(new SimpleSchema({
 
+  // from source
+  title: {
+    type: String,
+    optional: true
+  },
+
+  author_name: {
+    type: String,
+    optional: true
+  },
+
+  mediaType: {
+    type: String,
+    optional: true
+  },
+
   url: {
     type: String,
     // regEx: SimpleSchema.RegEx.Url
@@ -23,14 +39,16 @@ Posts.attachSchema(new SimpleSchema({
     defaultValue: false
   },
 
-  type: {
+  sourceType: {
     type: String
   },
 
   createdAt: {
     type: Date,
-    autoValue: function() {
-      return new Date();
-    }
+    autoValue: function(doc) {
+      if (Meteor.isServer && this.isInsert) {
+          return new Date();
+      }
+    },
   }
 }));

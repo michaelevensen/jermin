@@ -1,5 +1,6 @@
+
 Template.item.events({
-  "click .delete": function(event, template){
+  'click .delete': function(event, template) {
     event.preventDefault();
 
     if(confirm('You sure?')) {
@@ -11,6 +12,20 @@ Template.item.events({
           alert(error);
       });
     }
+  },
+
+  'click input[name=featured]': function(event, template) {
+    event.preventDefault();
+
+    // post id
+    var postId = this._id;
+    var state = this.isFeatured ? false : true;
+
+    // featured
+    Meteor.call('isFeatured', postId, state, function(error, result) {
+      if(error)
+        alert(error);
+    });
   }
 });
 
@@ -27,7 +42,7 @@ Template.item.helpers({
   isAdmin: function() {
     return Roles.userIsInRole(Meteor.userId(), ['admin']);
   },
-  isFeatured: function() {
+  featured: function() {
     return this.isFeatured ? 'checked' : '';
   }
 });

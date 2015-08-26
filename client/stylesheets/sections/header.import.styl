@@ -1,6 +1,5 @@
 
 header
-  // size 100% 94px
   position fixed
   top 0
   right 0
@@ -10,7 +9,6 @@ header
   box-sizing border-box
 
   .logo
-    // display inline-block
     float left
     cursor pointer
 
@@ -22,7 +20,8 @@ header
 
 nav
   float right
-  font-size 18px
+  font normal 17px/1.4 'Maison Neue Mono Regular', Consolas 'Andale Mono', monospace
+  letter-spacing -1px
 
   ul li
     display inline
@@ -35,7 +34,8 @@ nav
 
     a
       color white
-      border-bottom 1px solid _white
+      // border-bottom 1px solid _primary
 
       &:hover
-        border none
+        // border none
+        color _primary

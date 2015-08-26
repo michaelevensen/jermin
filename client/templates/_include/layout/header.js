@@ -10,6 +10,9 @@ Template.header.events({
 
     // logout
     Meteor.logout();
+
+    // redirect
+    FlowRouter.go('index');
   },
   'click a[name=register]': function(event, template) {
     event.preventDefault();

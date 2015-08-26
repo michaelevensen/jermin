@@ -7,9 +7,10 @@
     <table>
       <thead>
         <tr>
-          <th>Email</th>
+          <th>Sent to</th>
+          <th>Token</th>
           <th>Created</th>
-          <th>Invite used?</th>
+          <th>Used</th>
         </tr>
       </thead>
 
@@ -17,6 +18,7 @@
 
       <tr>
         <td>{{email}}</td>
+        <td>{{token}}</td>
         <td>{{timeAgo createdAt}}</td>
         <td>{{readableBoolean used}}</td>
       </tr>

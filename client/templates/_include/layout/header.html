@@ -5,19 +5,22 @@
   </div>
 
   {{#if currentUser}}
-    {{> new }}
+    {{#if isActiveRoute 'profile'}}
+      {{> new }}
+    {{/if}}
   {{/if}}
 
   <nav>
     <ul>
-
       {{#if currentUser}}
+        <li><a href="{{pathFor 'profile' username=currentUser.username}}"><span class="zmdi zmdi-view-dashboard"></span>{{currentUser.username}}</a></li>
+
         {{#if isAdmin}}
-          <li><a href="{{pathFor 'admin/invites'}}">Invites</a></li>
-          <li><a href="{{pathFor 'admin/users'}}">Users</a></li>
+          <li><a href="{{pathFor 'admin/invites'}}"><span class="zmdi zmdi-grain"></span>Invites</a></li>
+          <li><a href="{{pathFor 'admin/users'}}"><span class="zmdi zmdi-accounts-outline"></span>Users</a></li>
         {{/if}}
-        <li>Yo, <a href="{{pathFor 'profile' username=currentUser.username}}">{{currentUser.username}}</a></li>
-        <li><a name="logout" href="#">Logout</a></li>
+
+        <li><a name="logout" href="#"><span class="zmdi zmdi-close"></span>Logout</a></li>
       {{else}}
         <li><a name="register" href="#">Register</a></li>
         <li><a name="login" href="#">Login</a></li>

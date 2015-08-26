@@ -19,26 +19,30 @@ Meteor.methods({
     var spotifyRegex = /((http:\/\/(open\.spotify\.com\/.*|spoti\.fi\/.*|play\.spotify\.com\/.*))|(https:\/\/(open\.spotify\.com\/.*|play\.spotify\.com\/.*)))/i; // Spotify
 
     if(ytRegex.test(post.url)) {
-      post.type = 'youtube';
+      post.sourceType = 'youtube';
     }
 
     else if(scRegex.test(post.url)) {
-      post.type = 'soundcloud';
+      post.sourceType = 'soundcloud';
     }
 
     else if(spotifyRegex.test(post.url)) {
-      post.type = 'spotify';
+      post.sourceType = 'spotify';
     }
 
     else {
       throw new Meteor.Error('invalid-link', 'Sorry, only supports YouTube, SoundCloud and Spotify links');
     }
 
-    // Get Embed (oEmbed)
+
+    /*
+    * Get embed (oEmbed)
+    */
     Meteor.call('getEmbed', post);
 
-    // Add author id
-    post.authorId = Meteor.userId();
+
+        // Add author id
+        post.authorId = Meteor.userId();
 
     //////
     var postId = Posts.insert(post, function(error, result) {
@@ -53,12 +57,12 @@ Meteor.methods({
     getEmbed: function(post) {
       check(post, {
         url: String,
-        type: String
+        sourceType: String
       });
 
       var embedUrl;
 
-      switch (post.type) {
+      switch (post.sourceType) {
         case 'youtube':
           embedUrl = 'http://www.youtube.com/oembed';
         break;
@@ -88,6 +92,9 @@ Meteor.methods({
           // update with iframe html
           Posts.update({url: post.url}, {
             $set: {
+              title: result.data.title,
+              author_name: result.data.author_name,
+              mediaType: result.data.type,
               html: result.data.html
             }
           });
@@ -103,6 +110,20 @@ Meteor.methods({
     // is owner
     if(Meteor.userId() === post.authorId) {
       Posts.remove(postId);
+    }
+  },
+
+  isFeatured: function(postId, state) {
+    check(postId, String);
+    check(state, Boolean);
+
+    // double-check admin
+    if(Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      Posts.update(postId, {$set: {
+        'isFeatured': state
+      }});
+    } else {
+      throw new Meteor.Error('no-permissions', "You don't have permission to do this.");
     }
   }
 });

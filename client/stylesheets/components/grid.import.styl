@@ -2,15 +2,20 @@
   display flex
   flex-flow row wrap
   align-items center
+  // align-items flex-start
   justify-content center
 
   .grid-item
-    // border 1px solid rgba(255,255,255,.2)
     border 1px solid _white
+    transition border-color .2s
     padding 20px
+    // align-self flex-start
     overflow hidden
-    size 500px
+    width 500px
     margin 10px
+
+    &:hover
+      border-color _primary
 
     .item
       margin 0 auto
