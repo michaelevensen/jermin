@@ -5,14 +5,20 @@ Meteor.methods({
       url: String
     });
 
-    // check for duplicates
+    /*
+    * Check for Duplicates
+    */
     var exists = Posts.findOne({url: post.url});
     if(exists) {
-      throw new Meteor.Error('already-exists', 'Looks like this link already exists');
+      // throw new Meteor.Error('already-exists', 'Looks like this link already been posted to your profile.');
+      return exists._id;
     }
 
+    // Add author
+    post.authorId = Meteor.userId();
+
     /*
-    * Check Type
+    * Check Link Type
     */
     var ytRegex = /^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/; // YouTube
     var scRegex = /((https:\/\/)|(http:\/\/)|(www.)|(\s))+(soundcloud.com\/)+[a-zA-Z0-9\-\.]+(\/)+[a-zA-Z0-9\-\.]+/; // SoundCloud
@@ -34,77 +40,72 @@ Meteor.methods({
       throw new Meteor.Error('invalid-link', 'Sorry, only supports YouTube, SoundCloud and Spotify links');
     }
 
-
     /*
     * Get embed (oEmbed)
     */
-    Meteor.call('getEmbed', post);
+    Meteor.call('getEmbed', post.url, post.sourceType);
 
-
-        // Add author id
-        post.authorId = Meteor.userId();
-
-    //////
+    /*
+    * Add post
+    */
     var postId = Posts.insert(post, function(error, result) {
       if(error) {
           throw new Meteor.Error(error);
         }
-      });
+    });
 
-      return postId;
-    },
+    // return document
+    return postId;
+  },
 
-    getEmbed: function(post) {
-      check(post, {
-        url: String,
-        sourceType: String
-      });
+  getEmbed: function(sourceUrl, sourceType) {
+    check(sourceUrl, String);
+    check(sourceType, String);
 
-      var embedUrl;
+    var embedUrl;
 
-      switch (post.sourceType) {
-        case 'youtube':
-          embedUrl = 'http://www.youtube.com/oembed';
-        break;
+    switch (sourceType) {
+      case 'youtube':
+        embedUrl = 'http://www.youtube.com/oembed';
+      break;
 
-        case 'soundcloud':
-          embedUrl = 'http://soundcloud.com/oembed';
-        break;
+      case 'soundcloud':
+        embedUrl = 'http://soundcloud.com/oembed';
+      break;
 
-        case 'spotify':
-          embedUrl = 'https://embed.spotify.com/oembed';
-        break;
+      case 'spotify':
+        embedUrl = 'https://embed.spotify.com/oembed';
+      break;
+    }
+
+    HTTP.call('GET', embedUrl, {
+      params: {
+        format: 'json',
+        url: sourceUrl
+      },
+      headers: {
+        'User-Agent': 'chrome'
       }
-
-      HTTP.call('GET', embedUrl, {
-        params: {
-          format: 'json',
-          url: post.url
-        },
-        headers: {
-          'User-Agent': 'chrome'
-        }
-      }, function(error, result) {
-        if(error) {
-          throw new Meteor.Error(error);
-        }
-        else if(result) {
-          // update with iframe html
-          Posts.update({url: post.url}, {
-            $set: {
-              title: result.data.title,
-              author_name: result.data.author_name,
-              mediaType: result.data.type,
-              html: result.data.html
-            }
-          });
-        }
-      });
+    }, function(error, result) {
+      if(error) {
+        throw new Meteor.Error(error);
+      }
+      if(result) {
+        // update with iframe html
+        Posts.update({url: sourceUrl}, {
+          $set: {
+            title: result.data.title,
+            author_name: result.data.author_name,
+            mediaType: result.data.type,
+            html: result.data.html
+          }
+        });
+      }
+    });
   },
 
   deletePost: function(postId) {
     check(postId, String);
-
     var post = Posts.findOne(postId);
 
     // is owner
@@ -113,7 +114,7 @@ Meteor.methods({
     }
   },
 
-  isFeatured: function(postId, state) {
+  setPostFeatured: function(postId, state) {
     check(postId, String);
     check(state, Boolean);
 
@@ -121,6 +122,23 @@ Meteor.methods({
     if(Roles.userIsInRole(Meteor.userId(), ['admin'])) {
       Posts.update(postId, {$set: {
         'isFeatured': state
+      }});
+    } else {
+      throw new Meteor.Error('no-permissions', "You don't have permission to do this.");
+    }
+  },
+
+  setPostPrivate: function(postId, state) {
+    check(postId, String);
+    check(state, Boolean);
+
+    var authorId = Meteor.userId();
+    var post = Posts.findOne(postId);
+
+    // is owner
+    if(post.authorId===authorId) {
+      Posts.update(postId, {$set: {
+        'isPrivate': state
       }});
     } else {
       throw new Meteor.Error('no-permissions', "You don't have permission to do this.");

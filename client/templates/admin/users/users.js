@@ -1,5 +1,6 @@
 Template.users.onCreated(function() {
   subs.subscribe('allUsers');
+  subs.subscribe('allPosts');
 });
 
 Template.users.helpers({
@@ -7,6 +8,7 @@ Template.users.helpers({
     return Meteor.users.find({}, {sort: {createdAt: -1}});
   },
   posts: function(userId) {
-    return Posts.find({authorId: userId}).count();
+    var postCount = Posts.find({authorId: userId}).count();
+    return postCount ? postCount : 'None';
   }
 });

@@ -2,13 +2,13 @@
 
   <div class="wrapper white">
 
-    <h2>Users ({{users.count}})</h2>
+    <h1 class="white">{{users.count}} Users</h1>
 
     <table>
       <thead>
         <tr>
-          <th>Id</th>
           <th>Username</th>
+          <th>Id</th>
           <th>Created</th>
           <th>Posts</th>
         </tr>
@@ -17,10 +17,10 @@
     {{#each users}}
 
       <tr>
+        <td><a href="{{pathFor 'profile' username=username}}" target="_blank"><span class="zmdi zmdi-account"></span>{{username}}</a></td>
         <td>{{_id}}</td>
-        <td><a href="{{pathFor 'profile' username=username}}" target="_blank" class="zmdi zmdi-account">{{username}}</a></td>
         <td>{{timeAgo createdAt}}</td>
-        <td>{{posts _id}}</td>
+        <td><span class="zmdi zmdi-equalizer"></span>{{posts _id}}</td>
       </tr>
 
     {{/each}}

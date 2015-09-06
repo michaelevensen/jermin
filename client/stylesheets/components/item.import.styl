@@ -1,11 +1,44 @@
 
+
 .item
   font-size 12px
   color _altgray
   // transition color .2s
 
   >.footer
-    margin 10px auto
+    margin 17px auto 10px auto
+
+    .posted-by
+      display inline-block
+
+      a
+        color _primary
+
+        &:hover
+          border-bottom 1px solid _primary
+
+    .actions
+      float right
+
+      ul li
+        display inline
+        margin-left 4px
+
+        &:not(:last-child)
+          margin-right 10px
+          padding-right 6px
+          border-right 1px solid rgba(255,255,255,.2)
+
+      // .is-featured label
+      //   &:hover
+      //     color _primary
+
+      .delete-post a
+        color _altgray
+        // transition color 0.5s
+
+        &:hover
+          color _primary
 
   >.embed
     position relative

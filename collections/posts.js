@@ -3,12 +3,23 @@ Posts = new Mongo.Collection('posts');
 
 Posts.attachSchema(new SimpleSchema({
 
-  // from source
   title: {
     type: String,
     optional: true
   },
 
+  isPrivate: {
+    type: Boolean,
+    defaultValue: false
+  },
+
+  // array of group ids post belong to
+  groupIds: {
+    type: [String],
+    optional: true
+  },
+
+  // from youtube oEmbed not username
   author_name: {
     type: String,
     optional: true

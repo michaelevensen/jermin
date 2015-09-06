@@ -1,5 +1,11 @@
 <template name="profile">
 
+  {{#if currentUser}}
+    <div class="wrapper">
+      {{> new }}
+    </div>
+  {{/if}}
+
   <div class="grid">
 
     {{#each posts}}

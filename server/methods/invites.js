@@ -37,8 +37,8 @@ Meteor.methods({
         throw new Meteor.Error(error.sanitizedError.error, error.message);
       }
 
+      // Send Invitation
       if(result) {
-        // Send Invitation
         Email.send({
           to: email,
           from: "Rave <hello@rave.io>",

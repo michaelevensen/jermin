@@ -21,7 +21,6 @@ http
 msavin:fetcher
 accounts-base
 accounts-password
-reactive-var
 tomwasd:flow-router-autoscroll
 email
 random
@@ -31,3 +30,6 @@ momentjs:moment
 sacha:spin
 ixdi:material-design-iconic-font
 audit-argument-checks
+reactive-var
+todda00:friendly-slugs
+joshowens:inflectionizer

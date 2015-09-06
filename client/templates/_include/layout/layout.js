@@ -1,7 +1,7 @@
 Template.layout.onRendered(function() {
 
   /*
-  * Register and Login
+  * Header Actions
   * - Reactive Query Params
   */
   var instance =  Template.instance();

@@ -1,0 +1,16 @@
+// group page
+.members
+  color white
+
+  ul li
+    >a
+      color _primary
+
+      &:hover
+        border-bottom 1px solid _primary
+
+    &:after
+      content: ','
+    &:last-child
+      &:after
+        content: '.'

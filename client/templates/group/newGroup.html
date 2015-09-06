@@ -1,0 +1,21 @@
+<template name="newGroup">
+
+  <h1>New group</h1>
+
+  <form>
+
+    <div class="form-group">
+      <label for="name">{{#if errorMessage 'name'}}<span class="help-block">{{errorMessage 'name'}}</span>{{else}}Name{{/if}}</label>
+      <input type="text" id="name" name="name" placeholder="Your group name" autofocus>
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="description">{{#if errorMessage 'description'}}<span class="help-block">{{errorMessage 'description'}}</span>{{else}}Group Description{{/if}}</label>
+      <textarea name="description" rows="8" cols="4" id="description" placeholder="Describe the group in a couple of words"></textarea>
+    </div> -->
+
+    <button type="submit">Create</button>
+
+  </form>
+
+</template>

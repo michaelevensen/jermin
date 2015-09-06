@@ -8,6 +8,15 @@ Meteor.publish('singleUser', function(username) {
 	}});
 });
 
+// Find one user by id
+// Meteor.publish('singleUserById', function(id) {
+// 	check(id, String);
+// 	return Meteor.users.find({_id: id}, {
+// 		fields: {
+// 		'username': 1,
+// 	}});
+// });
+
 // Admin
 Meteor.publish('allUsers', function() {
   if (Roles.userIsInRole(this.userId, ['admin'])) {

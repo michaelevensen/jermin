@@ -1,45 +1,42 @@
 <template name="index">
 
+  {{#if Template.subscriptionsReady}}
+
   <div class="wrapper">
 
-    <p class="large white">
+    {{#if posts.count}}
+      <p class="large">
 
-      Welcome to xxx, <br>
+        <div class="members">
+          Here's some tracks and playlists featured from
 
-      {{#if posts.count}}
-         here's some tracks or playlists featured from
+          <ul>
+            {{#each featuredUsernames}}
+              <li><a href="{{pathFor 'profile' username=this}}">{{this}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
 
-         {{#each featuredUsernames}}
-            <span class="featured-username">{{this}}</span>
-         {{/each}}
+      </p>
+    {{/if}}
 
-      {{else}}
-
-        nothing's featured quite yet.
-
-      {{/if}}
-
-
-    </p>
 
   </div>
 
   <div class="grid">
 
-    {{#if Template.subscriptionsReady}}
-
-      {{#each posts}}
-        <div class="grid-item">
-          {{> item }}
-        </div>
-      {{/each}}
-
-    {{else}}
-
-      {{> spinner }}
-
-    {{/if}}
+    {{#each posts}}
+      <div class="grid-item">
+        {{> item }}
+      </div>
+    {{/each}}
 
   </div>
+
+  {{else}}
+
+    {{> spinner }}
+
+  {{/if}}
 
 </template>

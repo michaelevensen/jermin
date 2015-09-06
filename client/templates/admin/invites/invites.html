@@ -2,7 +2,7 @@
 
   <div class="wrapper white">
 
-    <h2>Invites ({{invites.count}})</h2>
+    <h1 class="white">{{invites.count}} Invites</h1>
 
     <table>
       <thead>
@@ -18,9 +18,20 @@
 
       <tr>
         <td>{{email}}</td>
-        <td>{{token}}</td>
+        <td>
+          {{#unless used}}
+            <a href="?action=register&token={{token}}">{{token}}</a>
+          {{else}}
+            {{token}}
+          {{/unless}}
+        </td>
         <td>{{timeAgo createdAt}}</td>
-        <td>{{readableBoolean used}}</td>
+        <td class="{{#if used}}primary{{/if}}">
+          {{#if used}}
+            <span class="zmdi zmdi-check"></span>
+          {{/if}}
+          {{readableBoolean used}}
+        </td>
       </tr>
 
     {{/each}}

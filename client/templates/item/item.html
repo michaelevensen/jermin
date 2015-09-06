@@ -13,8 +13,12 @@
     </div>
 
     <div class="footer info">
-      <ul>
-        <li class="posted-by">Posted by <a href="{{pathFor 'profile' username=authorName}}">{{authorName}}</a></li>
+      <div class="posted-by">
+        By <a href="{{pathFor 'profile' username=authorName}}">@{{authorName}}</a>
+      </div>
+
+      <div class="actions">
+        <ul>
         {{#if isAdmin}}
           <li class="is-featured">
             <label>
@@ -22,8 +26,20 @@
             </label>
           </li>
         {{/if}}
-        {{#if isOwner}}<li class="delete-post"><span class="zmdi zmdi-close"></span>Delete</li>{{/if}}
-      </ul>
+
+        {{#if isOwner}}
+          <li class="is-private">
+            <label>
+              <input type="checkbox" name="private" {{private}}>Private
+            </label>
+          </li>
+
+          <li class="delete-post">
+            <a href="#"><span class="zmdi zmdi-close"></span>Delete</a>
+          </li>
+        {{/if}}
+        </ul>
+      </div>
     </div>
 
   </div>

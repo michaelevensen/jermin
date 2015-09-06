@@ -1,0 +1,46 @@
+<template name="groups">
+
+  <div class="wrapper">
+    <div class="groups">
+
+      {{#if currentUser}}
+
+        <h1>Your Groups</h1>
+        <a class="btn new-group" name="new-group"><span class="zmdi zmdi-plus"></span>New group</a>
+
+        <div class="your-groups">
+          <ul>
+            {{#each mine}}
+              <li class="name">
+                <a href="{{pathFor 'groupPage' groupSlug=slug}}">{{name}}</a>
+                <span class="members">{{pluralize memberCount 'Members'}}</span>
+                {{#if isPrivate}}
+                  This group is private.
+                {{/if}}
+
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+
+      {{/if}}
+
+
+      <h1>Groups</h1>
+
+      <div class="groups">
+        <ul>
+          {{#each groups}}
+            <li class="name">
+              <a href="{{pathFor 'groupPage' groupSlug=slug}}">{{name}}</a>
+              <span class="members">{{pluralize memberCount 'Members'}} &mdash; By <a href="{{pathFor 'profile' usernane=groupAuthor.username}}">@{{groupAuthor.username}}</a></span>
+              <span class="post-count">&mdash; {{pluralize postCount 'Posts'}}</span>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</template>

@@ -1,19 +1,16 @@
 <template name="header">
 
   <div class="logo">
-    <a href="{{pathFor 'index'}}"><img src="img/smiley.svg"></a>
+    <a href="{{pathFor 'index'}}"><img src="/img/smiley.svg"></a>
   </div>
 
-  {{#if currentUser}}
-    {{#if isActiveRoute 'profile'}}
-      {{> new }}
-    {{/if}}
-  {{/if}}
+
 
   <nav>
     <ul>
       {{#if currentUser}}
         <li><a href="{{pathFor 'profile' username=currentUser.username}}"><span class="zmdi zmdi-view-dashboard"></span>{{currentUser.username}}</a></li>
+        <li><a name="groups" href="#"><span class="zmdi zmdi-arrow-merge"></span>Groups</a></li>
 
         {{#if isAdmin}}
           <li><a href="{{pathFor 'admin/invites'}}"><span class="zmdi zmdi-grain"></span>Invites</a></li>

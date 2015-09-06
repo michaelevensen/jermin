@@ -1,17 +1,36 @@
-Template.profile.onCreated(function() {
-  var postAuthorUsername = FlowRouter.getParam('username');
-  author = Meteor.users.findOne({username: postAuthorUsername});
 
-  // subscribe
-  subs.subscribe('postsByUsername', postAuthorUsername);
+Template.profile.onCreated(function() {
+
+  /*
+  * Reactive re-subscription to subscribe to extra posts for users
+  */
+  var instance =  Template.instance();
+  instance.autorun(function() {
+    if(FlowRouter.getParam('username')) {
+
+      var postAuthorUsername = FlowRouter.getParam('username');
+
+      // subscribe
+      subs.subscribe('postsByUsername', postAuthorUsername);
+    }
+  });
 });
 
 Template.profile.helpers({
   posts: function() {
-    return Posts.find({authorId: author._id}, {sort: {createdAt: -1}});
+    var author = Meteor.users.findOne({username: FlowRouter.getParam('username')});
+    var authorId = author._id;
+    var posts = Posts.find({authorId: authorId, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
+
+    return posts;
+
+    // var postIds = posts.map(function(post) {
+    //   return post._id;
+    // });
+
   },
 
   username: function() {
-    return author.username;
+    return FlowRouter.getParam('username');
   }
 });
