@@ -1,0 +1,63 @@
+<template name="groupPage">
+
+  {{#if group}}
+    {{#with group}}
+
+      <div class="wrapper">
+
+        <h1>{{name}}</h1>
+
+        <div class="members">
+
+          <ul>
+            Maintained and moderated by
+            {{#each members}}
+              <li><a class="primary" href="{{pathFor 'profile' username=username}}">@{{username}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+
+        {{#if isMember}}
+          {{> new }}
+        {{/if}}
+
+        {{#if isAuthor}}
+          <div class="actions white">
+            <li class="private-group">
+              <label>
+                <input type="checkbox" name="private" {{private}}>Private
+              </label>
+            </li>
+          </div>
+
+          <br>
+
+          <a class="btn manage-group" href="{{pathFor 'groupManage' groupSlug=slug}}"><span class="zmdi zmdi-edit"></span>Manage group</a>
+        {{/if}}
+
+        {{#unless posts.count}}
+          <p class="large white">
+            No posts.
+          </p>
+        {{/unless}}
+
+      </div>
+
+
+      {{#if posts.count}}
+
+        <div class="grid">
+          {{#each posts}}
+            <div class="grid-item">
+              {{> item }}
+            </div>
+          {{/each}}
+        </div>
+
+      {{/if}}
+
+    {{/with}}
+
+  {{/if}}
+
+</template>

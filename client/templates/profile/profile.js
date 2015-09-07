@@ -1,36 +1,26 @@
 
 Template.profile.onCreated(function() {
-
-  /*
-  * Reactive re-subscription to subscribe to extra posts for users
-  */
-  var instance =  Template.instance();
-  instance.autorun(function() {
-    if(FlowRouter.getParam('username')) {
-
-      var postAuthorUsername = FlowRouter.getParam('username');
-
-      // subscribe
-      subs.subscribe('postsByUsername', postAuthorUsername);
-    }
-  });
+  var username = FlowRouter.getParam('username');
+  subs.subscribe('postsByUsername', username);
 });
 
 Template.profile.helpers({
   posts: function() {
-    var author = Meteor.users.findOne({username: FlowRouter.getParam('username')});
-    var authorId = author._id;
-    var posts = Posts.find({authorId: authorId, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
-
-    return posts;
-
-    // var postIds = posts.map(function(post) {
-    //   return post._id;
-    // });
-
+    if(this._id==Meteor.userId()) {
+      // your own posts
+      return Posts.find({authorId: this._id, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
+    } else {
+      // other posts
+      return Posts.find({authorId: this._id, isPrivate: false, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
+    }
   },
 
-  username: function() {
-    return FlowRouter.getParam('username');
+  user: function() {
+    var username = FlowRouter.getParam('username');
+    return Meteor.users.findOne({username: username});
+  },
+
+  allowedToPost: function() {
+    return Meteor.userId() === this._id;
   }
 });

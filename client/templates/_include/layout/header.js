@@ -20,13 +20,6 @@ Template.header.events({
     // open register
     FlowRouter.setQueryParams({action: 'register'});
   },
-
-  'click a[name=groups]': function(event, template) {
-    event.preventDefault();
-
-    // groups
-    FlowRouter.go('groups');
-  }
 });
 
 Template.header.helpers({

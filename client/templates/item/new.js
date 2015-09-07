@@ -1,11 +1,3 @@
-Template.onCreated(function() {
-  Session.setDefault('errorMessage', '');
-});
-
-Template.new.onRendered(function() {
-  Session.set('errorMessage', '');
-});
-
 Template.new.events({
   'submit form': function(event, template){
     event.preventDefault();
@@ -15,8 +7,6 @@ Template.new.events({
       url: $('input[name=new-post]').val()
     };
 
-    console.log(post);
-
     // add
     Meteor.call('addPost', post, function(error, result) {
       if(error) {
@@ -24,13 +14,10 @@ Template.new.events({
       }
 
       if(result) {
-        /*
-        * For groups
-        */
-        var groupId = template.data.groupId;
-
-        if(groupId) {
+        // For groups
+        if(_.isUndefined(template.data.username)) {
           var postId = result;
+          var groupId = template.data._id;
 
           // add post to group
           Meteor.call('addPostToGroup', postId, groupId);
@@ -38,7 +25,7 @@ Template.new.events({
       }
     });
 
-    // reset
+    // reset input
     $('input[name=new-post]').val('');
   },
 });

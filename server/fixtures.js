@@ -7,7 +7,7 @@ Meteor.startup(function() {
   		password: "1234"
   	});
 
-    Roles.addUsersToRoles(user, ['admin']);
+    Roles.addUsersToRoles(user, ['admin'], Roles.GLOBAL_GROUP);
   }
 
 

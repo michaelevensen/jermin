@@ -1,19 +1,34 @@
 <template name="profile">
 
-  {{#if currentUser}}
-    <div class="wrapper">
-      {{> new }}
-    </div>
-  {{/if}}
+  {{#with user}}
 
-  <div class="grid">
+    {{#if allowedToPost}}
+      <div class="wrapper">
+        {{> new }}
 
-    {{#each posts}}
-      <div class="grid-item">
-        {{> item }}
+        {{#unless posts.count}}
+          <p class="large white">
+            No posts.
+          </p>
+        {{/unless}}
+
       </div>
-    {{/each}}
 
-  </div>
+    {{/if}}
+
+    {{#if posts.count}}
+
+      <div class="grid">
+        {{#each posts}}
+          <div class="grid-item">
+            {{> item }}
+          </div>
+        {{/each}}
+      </div>
+
+    {{/if}}
+
+  {{/with}}
+
 
 </template>

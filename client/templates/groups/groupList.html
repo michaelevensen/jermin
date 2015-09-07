@@ -1,0 +1,54 @@
+<template name="groupList">
+
+  <div class="wrapper">
+    <div class="groups">
+
+      {{#if currentUser}}
+
+        <div class="my-groups">
+
+          <h1>Your Groups</h1>
+          <a class="btn new-group" name="new-group"><span class="zmdi zmdi-plus"></span>New group</a>
+
+          <ul>
+            {{#each personalGroups}}
+              <li class="name">
+                <a href="{{pathFor 'groupPage' groupSlug=slug}}">{{name}}</a>
+                <span class="members"><span class="zmdi zmdi-account"></span>{{memberCount}}</span>
+                <span class="post-count"><span class="zmdi zmdi-equalizer"></span>{{pluralize postCount 'Posts'}}</span>
+
+                {{#if isPrivate}}
+                  <span><span class="zmdi zmdi-lock"></span>Private</span>
+                {{/if}}
+
+              </li>
+            {{/each}}
+          </ul>
+
+        </div>
+      {{/if}}
+
+
+      {{#if publicGroups.count}}
+
+        <div class="other-groups">
+
+          <h1>Groups</h1>
+
+          <ul>
+            {{#each publicGroups}}
+              <li class="name">
+                <a href="{{pathFor 'groupPage' groupSlug=slug}}">{{name}}</a>
+                <span class="members">{{pluralize memberCount 'Members'}} &mdash; By <a href="{{pathFor 'profile' username=author.username}}">@{{author.username}}</a></span>
+                <span class="post-count">&mdash; {{pluralize postCount 'Posts'}}</span>
+              </li>
+            {{/each}}
+          </ul>
+
+        </div>
+      {{/if}}
+
+    </div>
+  </div>
+
+</template>

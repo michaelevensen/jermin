@@ -1,3 +1,11 @@
+Template.register.onCreated(function() {
+  Session.setDefault('errorMessage', '');
+});
+
+Template.register.onRendered(function() {
+  Session.set('errorMessage', '');
+});
+
 Template.register.events({
   'focusout input, keyup input': function (event, template) {
 		event.preventDefault();
@@ -110,12 +118,4 @@ Template.register.helpers({
       return this.token;
     }
   }
-});
-
-Template.register.onCreated(function() {
-  Session.setDefault('errorMessage', '');
-});
-
-Template.register.onRendered(function() {
-  Session.set('errorMessage', '');
 });

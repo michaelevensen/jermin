@@ -34,8 +34,9 @@ Template.item.events({
 
     // set to private
     Meteor.call('setPostPrivate', postId, state, function(error, result) {
-      if(error)
-        alert(error);
+      if(error) {
+        return alert(error);
+      }
     });
   },
 
@@ -56,6 +57,8 @@ Template.item.events({
 
 Template.item.helpers({
   authorName: function() {
+    console.log(this.data);
+
     var user = Meteor.users.findOne(this.authorId, {fields: {
       'username': 1
     }});
@@ -63,15 +66,19 @@ Template.item.helpers({
       return user.username;
     }
   },
-  isOwner: function(){
+
+  isOwner: function() {
     return Meteor.userId() === this.authorId || Roles.userIsInRole(Meteor.userId(), ['admin']);
   },
+
   isAdmin: function() {
     return Roles.userIsInRole(Meteor.userId(), ['admin']);
   },
+
   featured: function() {
     return this.isFeatured ? 'checked' : '';
   },
+
   private: function() {
     return this.isPrivate ? 'checked' : '';
   }

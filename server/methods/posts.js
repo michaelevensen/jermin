@@ -8,11 +8,12 @@ Meteor.methods({
     /*
     * Check for Duplicates
     */
-    var exists = Posts.findOne({url: post.url});
-    if(exists) {
-      // throw new Meteor.Error('already-exists', 'Looks like this link already been posted to your profile.');
-      return exists._id;
-    }
+    // NOTE: Should be context aware.
+    // var exists = Posts.findOne({url: post.url});
+    // if(exists) {
+    //   // throw new Meteor.Error('already-exists', 'Looks like this link already been posted to your profile.');
+    //   return exists._id;
+    // }
 
     // Add author
     post.authorId = Meteor.userId();
@@ -108,9 +109,11 @@ Meteor.methods({
     check(postId, String);
     var post = Posts.findOne(postId);
 
-    // is owner
-    if(Meteor.userId() === post.authorId) {
+    // is owner or admin
+    if(Meteor.userId() === post.authorId || Roles.userIsInRole(Meteor.userId(), ['admin'])) {
       Posts.remove(postId);
+    } else {
+      throw new Meteor.Error('no-permission', "You don't have permission to do this.");
     }
   },
 
@@ -118,13 +121,15 @@ Meteor.methods({
     check(postId, String);
     check(state, Boolean);
 
+    console.log('post featured!');
+
     // double-check admin
     if(Roles.userIsInRole(Meteor.userId(), ['admin'])) {
       Posts.update(postId, {$set: {
         'isFeatured': state
       }});
     } else {
-      throw new Meteor.Error('no-permissions', "You don't have permission to do this.");
+      throw new Meteor.Error('no-permission', "You don't have permission to do this.");
     }
   },
 
@@ -141,7 +146,7 @@ Meteor.methods({
         'isPrivate': state
       }});
     } else {
-      throw new Meteor.Error('no-permissions', "You don't have permission to do this.");
+      throw new Meteor.Error('no-permission', "You don't have permission to do this.");
     }
   }
 });
