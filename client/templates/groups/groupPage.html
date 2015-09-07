@@ -19,9 +19,7 @@
 
         {{#if isMember}}
           {{> new }}
-        {{/if}}
 
-        {{#if isAuthor}}
           <div class="actions white">
             <li class="private-group">
               <label>
@@ -32,8 +30,10 @@
 
           <br>
 
-          <a class="btn manage-group" href="{{pathFor 'groupManage' groupSlug=slug}}"><span class="zmdi zmdi-edit"></span>Manage group</a>
+          <a class="btn edit-group-members" name="edit-group-members"><span class="zmdi zmdi-edit"></span>Members</a>
+          <a class="btn delete-group" name="delete-group"><span class="zmdi zmdi-close"></span>Delete</a>
         {{/if}}
+
 
         {{#unless posts.count}}
           <p class="large white">

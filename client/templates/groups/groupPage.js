@@ -7,13 +7,30 @@ Template.groupPage.onCreated(function() {
 });
 
 Template.groupPage.events({
-  // 'click a[name=manage-group]': function(event, template){
-  //   event.preventDefault();
-  //
-  //   // open manage group
-  //   // FlowRouter.setQueryParams({action: 'manageGroup'});
-  //
-  // },
+  'click a[name=edit-group-members]': function(event, template){
+    event.preventDefault();
+
+    // open manage group
+    // FlowRouter.setQueryParams({action: 'manageGroup'});
+    Modal.open('editGroupMembers', {data: this.data}, function() {
+      console.log('done');
+    });
+  },
+
+  'click a[name=delete-group]': function(event, template){
+    event.preventDefault();
+
+    if(confirm('You sure?')) {
+      Meteor.call('deleteGroup', this._id, function(error, result) {
+        if(error) {
+          return alert(error);
+        }
+
+        // back to list
+        FlowRouter.go('groupList');
+      });
+    }
+  },
 
   'click .private-group': function(event, template){
     event.preventDefault();

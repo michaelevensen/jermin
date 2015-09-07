@@ -57,8 +57,6 @@ Template.item.events({
 
 Template.item.helpers({
   authorName: function() {
-    console.log(this.data);
-
     var user = Meteor.users.findOne(this.authorId, {fields: {
       'username': 1
     }});

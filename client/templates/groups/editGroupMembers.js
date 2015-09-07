@@ -1,5 +1,6 @@
-Template.manageGroup.onCreated(function() {
+Template.editGroupMembers.onCreated(function() {
   Session.setDefault('errorMessage', '');
+  Session.setDefault('selectedUsername', '');
 
   var slug = FlowRouter.getParam('groupSlug');
   subs.subscribe('groupBySlug', slug);
@@ -7,17 +8,33 @@ Template.manageGroup.onCreated(function() {
 
 });
 
-Template.manageGroup.onRendered(function() {
+Template.editGroupMembers.onRendered(function() {
   Session.set('errorMessage', '');
 });
 
-Template.manageGroup.events({
+Template.editGroupMembers.events({
   'submit form': function(event, template){
     event.preventDefault();
+
+    // clear user
+    var userId = Session.get('selectedUsername');
+
+    // add user as member
+    if(!_.isUndefined(userId)) {
+      Meteor.call('addMemberToGroup', userId, this._id, function(error, result) {
+        if(error) {
+          return alert(error);
+        }
+      });
+    }
+  },
+
+  'autocompleteselect input': function(event, template, doc) {
+    Session.set('selectedUsername', doc._id);
   }
 });
 
-Template.manageGroup.helpers({
+Template.editGroupMembers.helpers({
 
   group: function() {
     var groupSlug = FlowRouter.getParam('groupSlug');
@@ -29,7 +46,9 @@ Template.manageGroup.helpers({
   },
 
   memberPostCount: function() {
-    var memberPosts = Posts.find({authorId: this._id});
+    var groupId = Template.parentData()._id;
+
+    var memberPosts = Posts.find({authorId: this._id, groupIds: {$in: [groupId]}});
     if(memberPosts) {
       return memberPosts.count();
     } else {
@@ -54,4 +73,19 @@ Template.manageGroup.helpers({
       return '';
     }
   },
+
+  settings: function() {
+    return {
+      position: 'bottom',
+      limit: 5,
+      rules: [
+        {
+          token: '',
+          collection: Meteor.users,
+          field: 'username',
+          template: Template.userPill
+        }
+      ]
+    };
+  }
 });

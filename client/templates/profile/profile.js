@@ -13,6 +13,9 @@ Template.profile.helpers({
       // other posts
       return Posts.find({authorId: this._id, isPrivate: false, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
     }
+
+    // var postIds = this.postIds;
+    // return Posts.find({$in: {postIds}});
   },
 
   user: function() {

@@ -28,11 +28,13 @@
         {{/if}}
 
         {{#if isOwner}}
-          <li class="is-private">
-            <label>
-              <input type="checkbox" name="private" {{private}}>Private
-            </label>
-          </li>
+          {{#if isNotActiveRoute 'groupPage'}}
+            <li class="is-private">
+              <label>
+                <input type="checkbox" name="private" {{private}}>Private
+              </label>
+            </li>
+          {{/if}}
 
           <li class="delete-post">
             <a href="#"><span class="zmdi zmdi-close"></span>Delete</a>
