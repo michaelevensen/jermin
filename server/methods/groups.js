@@ -28,32 +28,44 @@ Meteor.methods({
     check(postId, String);
     check(groupId, String);
 
-    // NOTE: should check if you're a member of the group!
+    var currentUserId = Meteor.userId();
 
-    // add post to group
-    Groups.update(groupId, {$addToSet: {postIds: postId}});
+    // Check if user is member of group
+    if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
 
-    // add groupid to post
-    Posts.update(postId, {$addToSet: {groupIds: groupId}});
+      // add post to group
+      Groups.update(groupId, {$addToSet: {postIds: postId}});
+
+      // add groupid to post
+      Posts.update(postId, {$addToSet: {groupIds: groupId}});
+    }
+    else {
+      throw Meteor.Error("no-permissions", "You don't have permissions to add posts to this group.");
+    }
   },
 
   addMemberToGroup: function(userId, groupId) {
     check(userId, String);
     check(groupId, String);
 
-    // NOTE: should check if you're a member of the group!
+    var currentUserId = Meteor.userId();
 
-    // add member to group
-    return Groups.update(groupId, {$addToSet: {memberIds: userId}}, function(error, result) {
-      if(error) {
-        throw new Meteor.Error(error.sanitizedError.error, error.message);
-      }
-    });
+    // Check if user is member of group
+    if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
+
+      // Add user to group
+      Roles.addUsersToRoles(userId, ['member'], groupId);
+    }
+    else {
+      throw Meteor.Error("no-permissions", "You don't have permissions to add members to this group.");
+    }
   },
 
   removeMemberFromGroup: function(userId, groupId) {
     check(userId, String);
     check(groupId, String);
+
+    var currentUserId = Meteor.userId();
 
     // Removing author is not possible
     var group = Groups.findOne(groupId);
@@ -61,37 +73,51 @@ Meteor.methods({
       throw new Meteor.Error("You cannot remove the author of this group. Try deleting the group instead.");
     }
 
-    // add member to group
-    return Groups.update(groupId, {$pull: {memberIds: userId}}, function(error, result) {
-      if(error) {
-        throw new Meteor.Error(error.sanitizedError.error, error.message);
-      }
-    });
+    // Check if user is member of group
+    if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
+
+      // Remove member from group
+      return Groups.update(groupId, {$pull: {memberIds: userId}}, function(error, result) {
+        if(error) {
+          throw new Meteor.Error(error.sanitizedError.error, error.message);
+        }
+      });
+    }
+    else {
+      throw Meteor.Error("no-permissions", "You don't have permissions to remove members from this group.");
+    }
   },
 
   removePostFromGroup: function(postId, groupId) {
     check(postId, String);
     check(groupId, String);
 
-    // NOTE: should check if you're a member of the group!
+    var currentUserId = Meteor.userId();
 
-    // remove post from group
-    Groups.update(groupId, {$pull: {postIds: postId}});
+    // Check permissions
+    if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
+
+      // Remove post from group
+      return Groups.update(groupId, {$pull: {postIds: postId}});
+    }
+    else {
+      throw Meteor.Error("no-permissions", "You don't have permissions to remove posts from this group.");
+    }
   },
 
   deleteGroup: function(groupId) {
     check(groupId, String);
 
-    var userId = Meteor.userId();
+    var currentUserId = Meteor.userId();
 
-    // NOTE: Only Authors are allow to do this!
+    // current group
     var group = Groups.findOne(groupId);
 
-    // check if author
-    if(group.authorId===userId) {
+    // Only Authors are allow to do this
+    if(group.authorId===currentUserId) {
       Groups.remove(groupId);
     } else {
-      throw new Meteor.Error('no-permissions', "Only the author of the group is allowed to delete groups.");
+      throw new Meteor.Error("no-permissions", "Only the author of the group is allowed to delete groups.");
     }
   },
 
@@ -99,18 +125,18 @@ Meteor.methods({
     check(groupId, String);
     check(state, Boolean);
 
-    var userId = Meteor.userId();
+    var currentUserId = Meteor.userId();
 
-    // check permissions
-    var group = Groups.findOne(groupId, {$in: {memberIds: [userId]}});
+    // Check if user is member of group
+    if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
 
-    // is group member
-    if(group) {
+      // Set to private
       Groups.update(groupId, {$set: {
         'isPrivate': state
       }});
-    } else {
-      throw new Meteor.Error('no-permissions', "You don't have permission to do this.");
+    }
+    else {
+      throw Meteor.Error("no-permissions", "You don't have permissions to remove posts from this group.");
     }
   }
 });

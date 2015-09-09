@@ -32,12 +32,12 @@ Template.editGroupMembers.events({
   'click a[name=remove-member]': function(event, template) {
     event.preventDefault();
 
-    // NOTE: Dirty way of getting id's, should be a smarter way.
+    // NOTE: Dirty way of getting id's. should get parent data context
     // user id
     var userId = $(event.target).data('id');
 
     // shouldnt be able to remove author
-    // if(userId!=this.)
+    // if(userId!=this.)s
 
     // group id
     var groupId = $(event.target).data('group-id');
