@@ -44,11 +44,28 @@ Meteor.methods({
     // NOTE: should check if you're a member of the group!
 
     // add member to group
-    Groups.update(groupId, {$addToSet: {memberIds: userId}}, function(error, result) {
+    return Groups.update(groupId, {$addToSet: {memberIds: userId}}, function(error, result) {
       if(error) {
         throw new Meteor.Error(error.sanitizedError.error, error.message);
       }
-      return result;
+    });
+  },
+
+  removeMemberFromGroup: function(userId, groupId) {
+    check(userId, String);
+    check(groupId, String);
+
+    // Removing author is not possible
+    var group = Groups.findOne(groupId);
+    if(group && userId==group.authorId) {
+      throw new Meteor.Error("You cannot remove the author of this group. Try deleting the group instead.");
+    }
+
+    // add member to group
+    return Groups.update(groupId, {$pull: {memberIds: userId}}, function(error, result) {
+      if(error) {
+        throw new Meteor.Error(error.sanitizedError.error, error.message);
+      }
     });
   },
 

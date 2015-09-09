@@ -2,12 +2,19 @@
 
   {{#with group}}
 
+    group id: {{_id}}
+
     <div class="group-members">
       <h1>Edit Members</h1>
 
       <ul>
         {{#each members}}
-          <li>{{username}} <span class="zmdi zmdi-equalizer"></span>{{pluralize memberPostCount 'Posts'}}<a name="remove-member" class="btn">Remove</a></li>
+          <li>
+            <span class="username large">{{username}}</span>
+            <span class="member-post-count info">
+              <span class="zmdi zmdi-equalizer"></span>{{pluralize memberPostCount 'Posts'}}<a name="remove-member" data-group-id="{{../_id}}" data-id="{{_id}}" class="btn">Remove</a>
+            </span>
+          </li>
         {{/each}}
       </ul>
 
@@ -18,15 +25,7 @@
     <div class="form-group">
       <label for="invite-by-username">{{#if errorMessage 'invites-by-username'}}<span class="help-block">{{errorMessage 'invite-by-username'}}</span>{{else}}Invite new member by username{{/if}}</label>
       {{> inputAutocomplete settings=settings id="msg" placeholder="Username"}}
-
-      <!-- <input type="text" id="invite-by-username" name="invite-by-username" placeholder="Username"> -->
     </div>
-
-<!--
-    <div class="form-group">
-      <label for="invite-by-mail">{{#if errorMessage 'invite-by-mail'}}<span class="help-block">{{errorMessage 'invite-by-mail'}}</span>{{else}}Invite by mail{{/if}}</label>
-      <input type="text" id="invite-by-mail" name="invite-by-mail" placeholder="Email">
-    </div> -->
 
     <button type="submit">Invite</button>
   </form>

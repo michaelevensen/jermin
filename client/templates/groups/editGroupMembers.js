@@ -16,12 +16,35 @@ Template.editGroupMembers.events({
   'submit form': function(event, template){
     event.preventDefault();
 
-    // clear user
+    // get selected username
     var userId = Session.get('selectedUsername');
 
     // add user as member
     if(!_.isUndefined(userId)) {
       Meteor.call('addMemberToGroup', userId, this._id, function(error, result) {
+        if(error) {
+          return alert(error);
+        }
+      });
+    }
+  },
+
+  'click a[name=remove-member]': function(event, template) {
+    event.preventDefault();
+
+    // NOTE: Dirty way of getting id's, should be a smarter way.
+    // user id
+    var userId = $(event.target).data('id');
+
+    // shouldnt be able to remove author
+    // if(userId!=this.)
+
+    // group id
+    var groupId = $(event.target).data('group-id');
+
+    // remove user as member
+    if(confirm('You sure?')) {
+      Meteor.call('removeMemberFromGroup', userId, groupId, function(error, result) {
         if(error) {
           return alert(error);
         }

@@ -5,58 +5,55 @@ Meteor.methods({
       url: String
     });
 
-    /*
-    * Check for Duplicates
-    */
-    // NOTE: Should be context aware.
-    // var exists = Posts.findOne({url: post.url});
-    // if(exists) {
-    //   // throw new Meteor.Error('already-exists', 'Looks like this link already been posted to your profile.');
-    //   return exists._id;
-    // }
+    // Check for duplicates
+    if(!checkForDuplicate(post)) {
 
-    // Add author
-    post.authorId = Meteor.userId();
+      // Add author
+      post.authorId = Meteor.userId();
 
-    /*
-    * Check Link Type
-    */
-    var ytRegex = /^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/; // YouTube
-    var scRegex = /((https:\/\/)|(http:\/\/)|(www.)|(\s))+(soundcloud.com\/)+[a-zA-Z0-9\-\.]+(\/)+[a-zA-Z0-9\-\.]+/; // SoundCloud
-    var spotifyRegex = /((http:\/\/(open\.spotify\.com\/.*|spoti\.fi\/.*|play\.spotify\.com\/.*))|(https:\/\/(open\.spotify\.com\/.*|play\.spotify\.com\/.*)))/i; // Spotify
+      /*
+      * Check Link Type
+      */
+      var ytRegex = /^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/; // YouTube
+      var scRegex = /((https:\/\/)|(http:\/\/)|(www.)|(\s))+(soundcloud.com\/)+[a-zA-Z0-9\-\.]+(\/)+[a-zA-Z0-9\-\.]+/; // SoundCloud
+      var spotifyRegex = /((http:\/\/(open\.spotify\.com\/.*|spoti\.fi\/.*|play\.spotify\.com\/.*))|(https:\/\/(open\.spotify\.com\/.*|play\.spotify\.com\/.*)))/i; // Spotify
 
-    if(ytRegex.test(post.url)) {
-      post.sourceType = 'youtube';
+      if(ytRegex.test(post.url)) {
+        post.sourceType = 'youtube';
+      }
+
+      else if(scRegex.test(post.url)) {
+        post.sourceType = 'soundcloud';
+      }
+
+      else if(spotifyRegex.test(post.url)) {
+        post.sourceType = 'spotify';
+      }
+
+      else {
+        throw new Meteor.Error('invalid-link', 'Sorry, only supports YouTube, SoundCloud and Spotify links');
+      }
+
+      /*
+      * Get embed (oEmbed)
+      */
+      Meteor.call('getEmbed', post.url, post.sourceType);
+
+      /*
+      * Add post
+      */
+      var postId = Posts.insert(post, function(error, result) {
+        if(error) {
+            throw new Meteor.Error(error);
+          }
+      });
+
+      // return document
+      return postId;
     }
-
-    else if(scRegex.test(post.url)) {
-      post.sourceType = 'soundcloud';
-    }
-
-    else if(spotifyRegex.test(post.url)) {
-      post.sourceType = 'spotify';
-    }
-
     else {
-      throw new Meteor.Error('invalid-link', 'Sorry, only supports YouTube, SoundCloud and Spotify links');
+      return;
     }
-
-    /*
-    * Get embed (oEmbed)
-    */
-    Meteor.call('getEmbed', post.url, post.sourceType);
-
-    /*
-    * Add post
-    */
-    var postId = Posts.insert(post, function(error, result) {
-      if(error) {
-          throw new Meteor.Error(error);
-        }
-    });
-
-    // return document
-    return postId;
   },
 
   getEmbed: function(sourceUrl, sourceType) {
@@ -103,6 +100,11 @@ Meteor.methods({
         });
       }
     });
+  },
+
+  checkForDuplicate: function(post) {
+    //
+
   },
 
   deletePost: function(postId) {

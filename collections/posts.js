@@ -1,6 +1,9 @@
 
 Posts = new Mongo.Collection('posts');
 
+// unique slugs from 'title'
+Posts.friendlySlugs('title');
+
 Posts.attachSchema(new SimpleSchema({
 
   title: {
