@@ -26,13 +26,15 @@ Meteor.methods({
     return groupId;
   },
 
-
   /*
   * Reserved for group members
   */
   addPostToGroup: function(postId, groupId) {
     check(postId, String);
     check(groupId, String);
+
+    // check if post already exists
+    // var postId = Posts.findOne(postId, {});
 
     var currentUserId = Meteor.userId();
 

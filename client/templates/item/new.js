@@ -1,3 +1,9 @@
+Template.new.onCreated(function() {
+  console.log(this.data);
+
+
+});
+
 Template.new.events({
   'submit form': function(event, template){
     event.preventDefault();
