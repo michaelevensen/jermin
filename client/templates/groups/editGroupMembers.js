@@ -5,7 +5,6 @@ Template.editGroupMembers.onCreated(function() {
   var slug = FlowRouter.getParam('groupSlug');
   subs.subscribe('groupBySlug', slug);
   subs.subscribe('postsForGroup', slug);
-
 });
 
 Template.editGroupMembers.onRendered(function() {
@@ -65,7 +64,10 @@ Template.editGroupMembers.helpers({
   },
 
   members: function() {
-    return Meteor.users.find({_id: {$in: this.memberIds}});
+    var groupId = this._id;
+    var members = Roles.getUsersInRole('member', groupId);
+
+    return members;
   },
 
   memberPostCount: function() {

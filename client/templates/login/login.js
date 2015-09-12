@@ -10,7 +10,7 @@ Template.login.events({
     // register
     Meteor.loginWithPassword(user.username, user.password, function(error, result) {
       if(error) {
-        return Session.set('errorMessage', error.reason);
+        return Session.set('errorMessage', {error: error.reason});
       }
 
       // close login

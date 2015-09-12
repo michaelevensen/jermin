@@ -10,18 +10,13 @@ Groups.attachSchema(new SimpleSchema({
     type: String
   },
 
-  description: {
-    type: String,
-    optional: true
-  },
+  // description: {
+  //   type: String,
+  //   optional: true
+  // },
 
   authorId: {
     type: String
-  },
-
-  // users apart of the group
-  memberIds: {
-    type: [String]
   },
 
   // posts

@@ -22,6 +22,7 @@ Meteor.publish('postsByUsername', function(username) {
 	}
 });
 
+
 // Posts for group
 Meteor.publish('postsForGroup', function(groupSlug) {
 	check(groupSlug, String);

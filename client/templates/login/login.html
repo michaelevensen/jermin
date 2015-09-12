@@ -1,6 +1,6 @@
 <template name="login">
 
-  <h1>Login</h1>
+  <h1 class="{{errorClass 'error'}}">{{#if errorMessage 'error'}}<span class="help-block">{{errorMessage 'error'}}</span>{{else}}Login{{/if}}</h1>
 
   <form class="login">
 

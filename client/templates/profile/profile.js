@@ -1,21 +1,21 @@
 
 Template.profile.onCreated(function() {
   var username = FlowRouter.getParam('username');
-  subs.subscribe('postsByUsername', username);
+  subs.subscribe('user', username);
 });
 
 Template.profile.helpers({
   posts: function() {
+
+    // Logged in - viewing your own profile (private posts)
     if(this._id==Meteor.userId()) {
-      // your own posts
       return Posts.find({authorId: this._id, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
-    } else {
-      // other posts
-      return Posts.find({authorId: this._id, isPrivate: false, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
     }
 
-    // var postIds = this.postIds;
-    // return Posts.find({$in: {postIds}});
+    // When viewing other profiles
+    else {
+      return Posts.find({authorId: this._id, isPrivate: false, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
+    }
   },
 
   user: function() {

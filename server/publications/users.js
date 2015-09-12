@@ -1,40 +1,48 @@
-
-// Find one user by username
-Meteor.publish('singleUser', function(username) {
+/*
+*	Profile Page
+*/
+Meteor.publishComposite('user', function(username) {
 	check(username, String);
-	return Meteor.users.find({username: username}, {
-		fields: {
-		'username': 1
-	}});
+
+	return {
+		find: function() {
+			return Meteor.users.find(
+				{username: username},
+				{limit: 1, fields: { 'username': 1 } });
+		},
+		children: [
+			{
+				find: function(user) {
+
+					// Logged in - viewing your own profile (private posts)
+					if(this.userId) {
+					  return Posts.find({authorId: user._id, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
+					}
+
+					// When viewing other profiles
+					else {
+					  return Posts.find({authorId: user._id, isPrivate: false, groupIds: {$exists: false}}, {sort: {createdAt: -1}});
+					}
+				}
+			}
+		]
+	};
 });
 
-// Find one user by id
-// Meteor.publish('singleUserById', function(id) {
-// 	check(id, String);
-// 	return Meteor.users.find({_id: id}, {
-// 		fields: {
-// 		'username': 1,
-// 	}});
-// });
-
-// Admin
+/*
+*	For Admin Only
+*/
 Meteor.publish('allUsers', function() {
-  if (Roles.userIsInRole(this.userId, ['admin'])) {
-   return Meteor.users.find({}, {
-		 fields: {
-		 'username': 1,
-		 'createdAt': 1
-	 }});
- } else {
-   this.stop();
-   return;
- }
-});
-
-// All Usernames
-Meteor.publish('allUsernames', function() {
- return Meteor.users.find({}, {
-	 fields: {
-		 'username': 1,
- }});
+  if(Roles.userIsInRole(this.userId, ['admin'])) {
+  	return Meteor.users.find({}, {
+			fields: {
+				'username': 1,
+				'createdAt': 1
+			}
+	 	});
+	 }
+	 else {
+		 this.stop();
+	   return;
+	 }
 });

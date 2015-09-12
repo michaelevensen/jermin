@@ -1,4 +1,4 @@
-<template name="groupPage">
+<template name="groupPage-old">
 
   {{#if group}}
     {{#with group}}
@@ -10,7 +10,7 @@
         <div class="members">
 
           <ul>
-            By
+            Maintained and moderated by
             {{#each members}}
               <li><a class="primary" href="{{pathFor 'profile' username=username}}">@{{username}}</a></li>
             {{/each}}

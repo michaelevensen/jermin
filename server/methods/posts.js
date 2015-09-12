@@ -6,7 +6,7 @@ Meteor.methods({
     });
 
     // Check for duplicates
-    if(!checkForDuplicate(post)) {
+    // if(!checkForDuplicate(post)) {
 
       // Add author
       post.authorId = Meteor.userId();
@@ -50,10 +50,11 @@ Meteor.methods({
 
       // return document
       return postId;
-    }
-    else {
-      return;
-    }
+    // }
+    // else {
+    //   // TODO: Should show one of two error messages: exists on profile or exists in group.
+    //   throw new Meteor.Error("already-exists", "This post already exists.");
+    // }
   },
 
   getEmbed: function(sourceUrl, sourceType) {
@@ -103,7 +104,8 @@ Meteor.methods({
   },
 
   checkForDuplicate: function(post) {
-    //
+
+    console.log(post.url);
 
   },
 

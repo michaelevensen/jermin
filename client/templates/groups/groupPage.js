@@ -1,9 +1,7 @@
 
 Template.groupPage.onCreated(function() {
   var slug = FlowRouter.getParam('groupSlug');
-
-  subs.subscribe('allUsernames');
-  subs.subscribe('postsForGroup', slug);
+  subs.subscribe('group', slug);
 });
 
 Template.groupPage.events({
@@ -11,10 +9,7 @@ Template.groupPage.events({
     event.preventDefault();
 
     // open manage group
-    // FlowRouter.setQueryParams({action: 'manageGroup'});
-    Modal.open('editGroupMembers', {data: this.data}, function() {
-      console.log('done');
-    });
+    Modal.open('editGroupMembers', {data: this.data});
   },
 
   'click a[name=delete-group]': function(event, template){
@@ -50,8 +45,8 @@ Template.groupPage.events({
 
 Template.groupPage.helpers({
   group: function() {
-    var slug = FlowRouter.getParam('groupSlug');
-    return Groups.findOne({slug: slug});
+    var groupSlug = FlowRouter.getParam('groupSlug');
+    return Groups.findOne({slug: groupSlug});
   },
 
   posts: function() {
@@ -63,15 +58,19 @@ Template.groupPage.helpers({
   },
 
   members: function() {
-    return Meteor.users.find({_id: {$in: this.memberIds}});
+    var groupId = this._id;
+    return Roles.getUsersInRole('member', groupId);
   },
 
   isAuthor: function() {
-    return this.authorId===Meteor.userId();
+    var authorId = this.authorId;
+    return authorId===Meteor.userId();
   },
 
   isMember: function() {
-    return this.memberIds.indexOf(Meteor.userId()) != -1 ? true : false;
+    var groupId = this._id;
+    var userId = Meteor.userId();
+    return Roles.userIsInRole(userId, 'member', groupId);
   },
 
   private: function() {

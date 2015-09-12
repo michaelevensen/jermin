@@ -2,9 +2,10 @@ Meteor.methods({
   createGroup: function(group) {
     check(group, {
       name: String,
-      authorId: String,
-      memberIds: [String]
+      authorId: String
     });
+
+    var currentUserId = Meteor.userId();
 
     // optional
     if(group.description) {
@@ -16,8 +17,13 @@ Meteor.methods({
         throw new Meteor.Error(error.sanitizedError.error, error.message);
       }
 
-      return result;
+      if(result) {
+        // Add author as member and author to group
+        Roles.addUsersToRoles(currentUserId, ['member', 'author'], groupId);
+      }
     });
+
+    return groupId;
   },
 
 
@@ -40,7 +46,7 @@ Meteor.methods({
       Posts.update(postId, {$addToSet: {groupIds: groupId}});
     }
     else {
-      throw Meteor.Error("no-permissions", "You don't have permissions to add posts to this group.");
+      throw new Meteor.Error("no-permissions", "You don't have permissions to add posts to this group.");
     }
   },
 
@@ -50,14 +56,17 @@ Meteor.methods({
 
     var currentUserId = Meteor.userId();
 
+
+    console.log(Roles.userIsInRole(currentUserId, 'member', groupId));
+
     // Check if user is member of group
-    if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
+    if(Roles.userIsInRole(currentUserId, 'member', groupId)) {
 
       // Add user to group
-      Roles.addUsersToRoles(userId, ['member'], groupId);
+      Roles.addUsersToRoles(userId, 'member', groupId);
     }
     else {
-      throw Meteor.Error("no-permissions", "You don't have permissions to add members to this group.");
+      throw new Meteor.Error("no-permissions", "You don't have permissions to add members to this group.");
     }
   },
 
@@ -84,7 +93,7 @@ Meteor.methods({
       });
     }
     else {
-      throw Meteor.Error("no-permissions", "You don't have permissions to remove members from this group.");
+      throw new Meteor.Error("no-permissions", "You don't have permissions to remove members from this group.");
     }
   },
 
@@ -101,7 +110,7 @@ Meteor.methods({
       return Groups.update(groupId, {$pull: {postIds: postId}});
     }
     else {
-      throw Meteor.Error("no-permissions", "You don't have permissions to remove posts from this group.");
+      throw new Meteor.Error("no-permissions", "You don't have permissions to remove posts from this group.");
     }
   },
 
@@ -136,7 +145,7 @@ Meteor.methods({
       }});
     }
     else {
-      throw Meteor.Error("no-permissions", "You don't have permissions to remove posts from this group.");
+      throw new Meteor.Error("no-permissions", "You don't have permissions to remove posts from this group.");
     }
   }
 });

@@ -7,12 +7,8 @@ Template.newGroup.events({
 
     var group = {
       name: $('input[name=name]').val(),
-      description: $('input[name=description]').val(),
-      authorId: authorId,
-      memberIds: [authorId],
+      authorId: authorId
     };
-
-
 
     /*
     * Validate

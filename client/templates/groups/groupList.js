@@ -1,11 +1,10 @@
 Template.groupList.onCreated(function() {
 
-  subs.subscribe('allPublicGroups');
-  subs.subscribe('allUsernames');
+  subs.subscribe('publicGroups');
 
   // only subscribe to user groups if logged in
   if(Meteor.userId()) {
-    subs.subscribe('groupsForUser');
+    subs.subscribe('personalGroups');
   }
 });
 
@@ -21,16 +20,21 @@ Template.groupList.events({
 Template.groupList.helpers({
   personalGroups: function(){
     var userId = Meteor.userId();
-    return Groups.find({memberIds: {$in: [userId]}}, {sort: {createdAt: -1}});
+    var userGroups = Roles.getGroupsForUser(userId, 'member');
+
+    return Groups.find({_id: {$in: userGroups}}, {sort: {createdAt: -1}});
   },
 
   publicGroups: function(){
     var userId = Meteor.userId();
-    return Groups.find({memberIds: {$nin: [userId]}, isPrivate: false}, {sort: {createdAt: -1}});
+    var userGroups = Roles.getGroupsForUser(userId, 'member');
+
+    return Groups.find({_id: {$nin: userGroups}}, {isPrivate: false}, {sort: {createdAt: -1}});
   },
 
   memberCount: function() {
-    return this.memberIds.length;
+    var groupId = this._id;
+    return Roles.getUsersInRole('member', groupId).count();
   },
 
   postCount: function() {
@@ -42,6 +46,7 @@ Template.groupList.helpers({
   },
 
   author: function() {
-    return Meteor.users.findOne(this.authorId);
+    var authorId = this.authorId;
+    return Meteor.users.findOne(authorId);
   }
 });
