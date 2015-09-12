@@ -2,9 +2,8 @@ Template.editGroupMembers.onCreated(function() {
   Session.setDefault('errorMessage', '');
   Session.setDefault('selectedUsername', '');
 
-  var slug = FlowRouter.getParam('groupSlug');
-  subs.subscribe('groupBySlug', slug);
-  subs.subscribe('postsForGroup', slug);
+  // for autocomplete
+  subs.subscribe('allUsernames');
 });
 
 Template.editGroupMembers.onRendered(function() {
@@ -34,20 +33,27 @@ Template.editGroupMembers.events({
     // NOTE: Dirty way of getting id's. should get parent data context
     // user id
     var userId = $(event.target).data('id');
-
-    // shouldnt be able to remove author
-    // if(userId!=this.)s
-
     // group id
     var groupId = $(event.target).data('group-id');
+    var group = Groups.findOne(groupId);
 
     // remove user as member
     if(confirm('You sure?')) {
-      Meteor.call('removeMemberFromGroup', userId, groupId, function(error, result) {
-        if(error) {
-          return alert(error);
-        }
-      });
+
+      // check if user is author
+      if(group.authorId==userId) {
+        return alert("You cannot remove the author of this group. Try deleting the group instead.");
+      }
+      else if(userId==Meteor.userId()) {
+        return alert("You cannot remove yourself from the group.");
+      }
+      else {
+        Meteor.call('removeMemberFromGroup', userId, groupId, function(error, result) {
+          if(error) {
+            return alert(error);
+          }
+        });
+      }
     }
   },
 

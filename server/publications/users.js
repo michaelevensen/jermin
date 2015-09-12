@@ -29,6 +29,18 @@ Meteor.publishComposite('user', function(username) {
 	};
 });
 
+
+// All usernames (for adding members to groups)
+Meteor.publish('allUsernames', function() {
+	if(this.userId) {
+		return Meteor.users.find({}, {
+			fields: {
+				'username': 1
+			}
+		});
+	}
+});
+
 /*
 *	For Admin Only
 */

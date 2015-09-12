@@ -7,9 +7,14 @@ Meteor.startup(function() {
   		password: "1234"
   	});
 
+    // second user
+    var mike = Accounts.createUser({
+  		username: "mike",
+  		password: "1234"
+  	});
+
     Roles.addUsersToRoles(user, ['admin'], Roles.GLOBAL_GROUP);
   }
-
 
   // Mailgun
   process.env.MAIL_URL = 'smtp://postmaster@sandbox0698895c0b894ea799dc2b591c06b29f.mailgun.org:71a2595828b540cd674e70daf4fd7e5e@smtp.mailgun.org:587';

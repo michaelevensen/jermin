@@ -42,26 +42,20 @@ Meteor.publishComposite('group', function(slug) {
     children: [
       	{
             find: function(group) {
-							if(group.postIds) {
-								return Posts.find({_id: {$in: group.postIds}}, {sort: {createdAt: -1}});
+              if(group.postIds) {
+                // group posts
+              	return Posts.find({_id: {$in: group.postIds}}, {sort: {createdAt: -1}});
 							}
-            },
-            children: [
-                {
-                    find: function(post) {
-                      console.log(post.authorId);
-											return Meteor.users.find(
-													{_id: post.authorId},
-													{limit: 1, fields: { 'username': 1 } });
-                    }
-                }
-            ]
+            }
         },
         {
           find: function(group) {
-						return Meteor.users.find(
-									{_id: group.authorId},
-									{limit: 1, fields: { 'username': 1 } });
+            // group members
+            return Roles.getUsersInRole('member', group._id);
+
+						// return Meteor.users.find(
+						// 			{_id: group.authorId},
+						// 			{limit: 1, fields: { 'username': 1 } });
         	}
       	}
   		]

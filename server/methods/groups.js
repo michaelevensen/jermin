@@ -56,9 +56,6 @@ Meteor.methods({
 
     var currentUserId = Meteor.userId();
 
-
-    console.log(Roles.userIsInRole(currentUserId, 'member', groupId));
-
     // Check if user is member of group
     if(Roles.userIsInRole(currentUserId, 'member', groupId)) {
 
@@ -86,11 +83,7 @@ Meteor.methods({
     if(Roles.userIsInRole(currentUserId, ['member'], groupId)) {
 
       // Remove member from group
-      return Groups.update(groupId, {$pull: {memberIds: userId}}, function(error, result) {
-        if(error) {
-          throw new Meteor.Error(error.sanitizedError.error, error.message);
-        }
-      });
+      Roles.removeUsersFromRoles(userId, 'member', groupId);
     }
     else {
       throw new Meteor.Error("no-permissions", "You don't have permissions to remove members from this group.");
